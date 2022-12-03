@@ -1,0 +1,1 @@
+CREATE TABLE public.todos (id uuid NOT NULL, name text NOT NULL, is_completed bool DEFAULT 'false' NOT NULL, created timestamp NOT NULL, updated timestamp NOT NULL, user_id uuid NOT NULL, PRIMARY KEY (id), FOREIGN KEY (user_id) REFERENCES auth.users (id) ON UPDATE RESTRICT ON DELETE RESTRICT);
