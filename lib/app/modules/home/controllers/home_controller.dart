@@ -1,9 +1,8 @@
+import 'package:flutter_nhost_todo/consts.dart';
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
-
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -19,5 +18,8 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void addTask({required String task}) {
+    final uuid = Uuid();
+    final uuidValue = uuid.v4();
+  }
 }

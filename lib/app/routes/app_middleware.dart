@@ -6,6 +6,6 @@ import 'package:get/get.dart';
 class RouteGuard extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
-    return (client.auth.currentUser != null) ? null : const RouteSettings(name: Routes.SIGNIN);
+    return (nhostClient.auth.currentUser != null) ? null : const RouteSettings(name: Routes.SIGNIN);
   }
 }

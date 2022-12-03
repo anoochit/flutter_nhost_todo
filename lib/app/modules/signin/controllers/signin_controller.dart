@@ -9,7 +9,7 @@ class SigninController extends GetxController {
 
   Future<bool> signInWithEmailPassword({required String email, required String password}) async {
     try {
-      final authResponse = await client.auth.signInEmailPassword(email: email, password: password);
+      final authResponse = await nhostClient.auth.signInEmailPassword(email: email, password: password);
       return (authResponse.user != null) ? true : false;
     } on ApiException catch (e) {
       log('${e.responseBody['message']}');
