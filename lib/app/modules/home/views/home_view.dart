@@ -1,8 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_nhost_todo/app/data/graphql_query.dart';
-import 'package:flutter_nhost_todo/app/data/todo_model.dart';
+import 'package:flutter_nhost_todo/app/data/graphql/graphql_query.dart';
+import 'package:flutter_nhost_todo/app/data/model/todo_model.dart';
+import 'package:flutter_nhost_todo/app/routes/app_pages.dart';
 import 'package:flutter_nhost_todo/consts.dart';
 
 import 'package:get/get.dart';
@@ -23,6 +24,16 @@ class HomeView extends GetView<HomeController> {
       appBar: AppBar(
         title: const Text('HomeView'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              nhostClient.auth.signOut().then(
+                    (value) => Get.offAllNamed(Routes.SIGNIN),
+                  );
+            },
+            icon: const Icon(Icons.exit_to_app),
+          ),
+        ],
       ),
 
       // show todo, use graphql subscription
@@ -78,37 +89,44 @@ class HomeView extends GetView<HomeController> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // add todo
-          Get.dialog(AlertDialog(
-            title: const Text("Add task"),
-            content: Form(
-              key: _formKey,
-              child: TextFormField(
-                controller: _textTask,
-                decoration: const InputDecoration(hintText: 'Task title'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Enter task";
-                  }
-                  return null;
-                },
-              ),
+          Get.dialog(
+            Mutation(
+              options: MutationOptions(document: addTodo),
+              builder: (runMutation, result) {
+                return AlertDialog(
+                  title: const Text("Add task"),
+                  content: Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      controller: _textTask,
+                      decoration: const InputDecoration(hintText: 'Task title'),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Enter task";
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        // add task
+                        if (_formKey.currentState!.validate()) {
+                          controller.addTask(task: _textTask.text);
+                        }
+                      },
+                      child: const Text("Add"),
+                    ),
+                    TextButton(
+                      onPressed: () => Get.back(),
+                      child: const Text("Cancel"),
+                    ),
+                  ],
+                );
+              },
             ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  // add task
-                  if (_formKey.currentState!.validate()) {
-                    controller.addTask(task: _textTask.text);
-                  }
-                },
-                child: const Text("Add"),
-              ),
-              TextButton(
-                onPressed: () => Get.back(),
-                child: const Text("Cancel"),
-              ),
-            ],
-          ));
+          );
         },
         child: const Icon(Icons.add),
       ),
