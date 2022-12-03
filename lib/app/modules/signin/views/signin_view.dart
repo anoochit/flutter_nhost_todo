@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_nhost_todo/app/routes/app_pages.dart';
-import 'package:flutter_nhost_todo/consts.dart';
 
 import 'package:get/get.dart';
 
@@ -15,6 +14,9 @@ class SigninView extends GetView<SigninController> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO : mock user data
+    _textEmail.text = "demo@example.com";
+    _textPassword.text = "Hello123";
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign In'),
@@ -81,7 +83,10 @@ class SigninView extends GetView<SigninController> {
 
   Future<void> signIn() async {
     if (_formKey.currentState!.validate()) {
-      final result = await controller.signInWithEmailPassword(email: _textEmail.text, password: _textPassword.text);
+      final result = await controller.signInWithEmailPassword(
+        email: _textEmail.text,
+        password: _textPassword.text,
+      );
       if (result == false) {
         Get.snackbar('Error', controller.signInError.value);
       } else {

@@ -25,7 +25,7 @@ mutation($todo_id: uuid!, $is_completed: Boolean!) {
 
 final addTodo = gql(r''' 
 mutation($todo: todos_insert_input!) {
-  insert_todos(objects: $todo) {
+  insert_todos(objects: [$todo]) {
     affected_rows
   }
 }

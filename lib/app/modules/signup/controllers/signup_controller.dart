@@ -1,9 +1,10 @@
+import 'dart:developer';
+
+import 'package:flutter_nhost_todo/consts.dart';
 import 'package:get/get.dart';
+import 'package:nhost_sdk/nhost_sdk.dart';
 
 class SignupController extends GetxController {
-  //TODO: Implement SignupController
-
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -19,5 +20,16 @@ class SignupController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  final signUpError = "".obs;
+
+  Future<bool> signupWithEmailPassword({required String email, required String password}) async {
+    try {
+      await nhostClient.auth.signUp(email: email, password: password);
+      return true;
+    } on ApiException catch (e) {
+      log('${e.responseBody['message']}');
+      signUpError.value = '${e.responseBody['message']}';
+      return false;
+    }
+  }
 }

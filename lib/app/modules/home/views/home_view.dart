@@ -22,7 +22,7 @@ class HomeView extends GetView<HomeController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomeView'),
+        title: const Text('Todos'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -113,7 +113,14 @@ class HomeView extends GetView<HomeController> {
                       onPressed: () {
                         // add task
                         if (_formKey.currentState!.validate()) {
-                          controller.addTask(task: _textTask.text);
+                          runMutation({
+                            'todo': {
+                              'name': _textTask.text,
+                              'user_id': nhostClient.auth.currentUser!.id,
+                            },
+                          });
+                          _textTask.clear();
+                          Get.back();
                         }
                       },
                       child: const Text("Add"),
