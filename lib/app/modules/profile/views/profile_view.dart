@@ -36,8 +36,7 @@ class ProfileView extends GetView<ProfileController> {
             );
           }
 
-          log('${result.data!['users']}');
-
+          // show data
           final profile = (result.data!['users'] as List).map((e) => UserProfile.fromMap(e)).toList();
           log('avatar = ${profile.first.avatarUrl}');
 
