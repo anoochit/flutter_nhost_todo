@@ -25,13 +25,19 @@ class HomeView extends GetView<HomeController> {
         title: const Text('Todos'),
         centerTitle: true,
         actions: [
+          // IconButton(
+          //   onPressed: () {
+          //     nhostClient.auth.signOut().then(
+          //           (value) => Get.offAllNamed(Routes.SIGNIN),
+          //         );
+          //   },
+          //   icon: const Icon(Icons.exit_to_app),
+          // ),
           IconButton(
             onPressed: () {
-              nhostClient.auth.signOut().then(
-                    (value) => Get.offAllNamed(Routes.SIGNIN),
-                  );
+              Get.toNamed(Routes.PROFILE);
             },
-            icon: const Icon(Icons.exit_to_app),
+            icon: const Icon(Icons.settings),
           ),
         ],
       ),

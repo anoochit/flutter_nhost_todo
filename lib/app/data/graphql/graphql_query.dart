@@ -30,3 +30,13 @@ mutation($todo: todos_insert_input!) {
   }
 }
 ''');
+
+final getUserProfileSubscription = gql(''' 
+subscription{
+  users{
+    id
+    displayName
+    avatarUrl
+  }
+}
+''');
